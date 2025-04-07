@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import estilos from './ListaLivros.module.scss';
 import ILivro from '../../interfaces/ILivro';
 import Livro from './Livro';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import DeleteIcon from '@mui/icons-material/Delete';
+//import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+//import Paper from '@mui/material/Paper';
+//import DeleteIcon from '@mui/icons-material/Delete';
 // import SendIcon from '@mui/icons-material/Send';
 // import Stack from '@mui/material/Stack';
 
@@ -15,7 +14,7 @@ const ListaLivros = () => {
 
   useEffect(() => {
       // obter livros
-      axios.get('http://localhost:3000/livros')
+      axios.get('http://localhost:3500/livros')
         .then(resposta => {
           console.log(resposta.data)
           setLivros(resposta.data)

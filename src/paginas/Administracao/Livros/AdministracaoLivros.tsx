@@ -4,7 +4,6 @@ import http from "../../../http"
 
 import { Link as RouterLink } from 'react-router-dom'
 import ILivro from "../../../interfaces/ILivro"
-import EditIcon from '@mui/icons-material/Edit';
 
 const AdministracaoLivros = () => {
 
@@ -46,7 +45,7 @@ const AdministracaoLivros = () => {
                         </TableCell>
                         <TableCell>
                             [ <RouterLink to={`/admin/livros/${livro.id}`}>editar </RouterLink> ]
-                            [ <RouterLink to={`/admin/livros/${livro.id}`}> <EditIcon /> </RouterLink> ]
+                            [ <RouterLink to={`/admin/livros/${livro.id}`}> editar </RouterLink> ]
                             
                         </TableCell>
                         <TableCell>
