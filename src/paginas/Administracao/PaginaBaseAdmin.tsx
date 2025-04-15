@@ -15,7 +15,7 @@ const PaginaBaseAdmin = () => {
                             Administração
                         </Typography>
                         <Box sx={{ display: 'flex', flexGrow: 1 }}>
-                            <Link component={RouterLink} to="/admin/restaurantes">
+                            {/* <Link component={RouterLink} to="/admin/restaurantes">
                                 <Button sx={{ my: 2, color: 'white' }}>
                                     Restaurantes
                                 </Button>
@@ -35,7 +35,7 @@ const PaginaBaseAdmin = () => {
                                 <Button sx={{ my: 2, color: 'white' }}>
                                     Novo Prato
                                 </Button>
-                            </Link>
+                            </Link> */}
 
                             <Link component={RouterLink} to="/admin/livros">
                                 <Button sx={{ my: 2, color: 'white' }}>

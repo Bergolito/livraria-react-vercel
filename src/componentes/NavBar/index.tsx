@@ -14,6 +14,9 @@ const NavBar = () => {
         <Link to="/livros">Livros</Link>
       </li>
       <li>
+        <Link to="/super-calculadora">SuperCalculadora</Link>
+      </li>
+      <li>
         <Link to="/calculadora">Calculadora</Link>
       </li>
       <li>
@@ -22,9 +25,9 @@ const NavBar = () => {
       <li>
         <Link to="/comps">Componentes</Link>
       </li>
-      {/* <li>
+      <li>
         <Link to="/admin">Admin</Link>
-      </li> */}
+      </li>
     </ul>
   </nav>)
 }

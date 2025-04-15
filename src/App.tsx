@@ -12,6 +12,7 @@ import Calculadora from './componentes/Calculadora';
 import Componentes from './componentes/Componentes';
 import AdministracaoLivros from './paginas/Administracao/Livros/AdministracaoLivros';
 import FormularioLivro from './paginas/Administracao/Livros/FormularioLivro';
+import SuperCalculadora from './componentes/SuperCalculadora';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
       <Route path="/livros" element={<VitrineLivros />} />
       <Route path="/sudoku" element={<Sudoku />} />
       <Route path="/calculadora" element={<Calculadora />} />
+      <Route path="/super-calculadora" element={<SuperCalculadora />} />
       <Route path="/comps" element={<Componentes />} />
 
       <Route path='/admin' element={<PaginaBaseAdmin />}>

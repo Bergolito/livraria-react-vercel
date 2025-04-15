@@ -12,7 +12,10 @@ const Livro = ({ livro }: LivroProps) => {
   return (
     <section className={estilos.Livro}>
       <div className={estilos.Titulo}>
-        <h2>{livro.titulo}</h2>
+        <h2>Título: {livro.titulo}</h2>
+        <h2>Autor: {livro.autor}</h2>
+        <h2>Editora: {livro.editora}</h2>
+        <h2>Qtd Páginas: {livro.numeroPaginas}</h2>
       </div>
     </section>)  
 }
