@@ -1,38 +1,12 @@
-import { Box } from "@mui/material";
-import { useState } from "react";
-
 export default function Operacao(
-    { valor1, valor2, operacao, corFundo }: 
-    { valor1: number; valor2: number; operacao: string, corFundo?: string }) {
+    { valor1, valor2, operacao, resultado, corFundo }: 
+    { valor1: number; valor2: number; operacao: string; resultado: number; corFundo?: string }) {
 
-    const [resultado, setResultado] = useState<number>(0);  
-    
     const estilos = {
         border: '1px solid #ccc',
         padding: '10px',
         background: corFundo ? corFundo : '#ADD8E6',
     };
-
-    function calcularResultado() {
-        let res = 0;
-        switch (operacao) {
-            case '+':
-                res = valor1 + valor2;
-                break;
-            case '-':
-                res = valor1 - valor2;
-                break;
-            case '*':
-                res = valor1 * valor2;
-                break;
-            case '/':
-                res = valor1 / valor2;
-                break;
-            default:
-                res = 0;
-        }
-        setResultado(res);
-    }
 
     return (
         // Rosa pastel: #FFD1DC
@@ -49,7 +23,6 @@ export default function Operacao(
                 Número 2: <input type="text" value={valor2} readOnly/>
             </label>
             <br />
-            <button onClick={calcularResultado}>Calcular</button>
             <p>Resultado: {resultado}</p>
         </div>
     );

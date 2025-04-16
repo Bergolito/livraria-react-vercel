@@ -9,29 +9,27 @@ export default function SuperCalculadora() {
 
     const [valor1, setValor1] = useState<number>(0);
     const [valor2, setValor2] = useState<number>(0);
-    const [resultado, setResultado] = useState<number>(0);
-    const [operacao, setOperacao] = useState<string>('+');
 
-    // function calcularResultado() {
-    //     let res = 0;
-    //     switch (operacao) {
-    //         case '+':
-    //             res = valor1 + valor2;
-    //             break;
-    //         case '-':
-    //             res = valor1 - valor2;
-    //             break;
-    //         case '*':
-    //             res = valor1 * valor2;
-    //             break;
-    //         case '/':
-    //             res = valor1 / valor2;
-    //             break;
-    //         default:
-    //             res = 0;
-    //     }
-    //     setResultado(res);
-    // }
+    const [operacao1, setOperacao1] = useState<string>('+');
+    const [operacao2, setOperacao2] = useState<string>('-');
+    const [operacao3, setOperacao3] = useState<string>('*');
+    const [operacao4, setOperacao4] = useState<string>('/');
+
+    const [resultado1, setResultado1] = useState<number>(0);
+    const [resultado2, setResultado2] = useState<number>(0);
+    const [resultado3, setResultado3] = useState<number>(0);
+    const [resultado4, setResultado4] = useState<number>(0);
+
+    function calcularResultado() {
+        setOperacao1('+');
+        setResultado1(valor1 + valor2);
+        setOperacao2('-');
+        setResultado2(valor1 - valor2);
+        setOperacao3('*');
+        setResultado3(valor1 * valor2);
+        setOperacao4('/');
+        setResultado4(valor1 / valor2);
+    }
 
     return (
         <>
@@ -50,7 +48,7 @@ export default function SuperCalculadora() {
                 <input type="number" value={valor2} onChange={(e) => setValor2(Number(e.target.value))} />
             </label>
             <br />
-            {/* <button id="calcular" onClick={calcularResultado}>Calcular</button> */}
+            <button id="calcular" onClick={calcularResultado}>Calcular</button>
         </div>
         {/* 
         // Rosa pastel: #FFD1DC
@@ -59,10 +57,10 @@ export default function SuperCalculadora() {
         // Amarelo claro: #FFFACD 
         // */}
         <div className={estilo.container}>
-            <div className={estilo.item}><Operacao valor1={valor1} valor2={valor2} operacao="+" corFundo="#FFD1DC" /></div>
-            <div className={estilo.item}><Operacao valor1={valor1} valor2={valor2} operacao="-" corFundo="#ADD8E6"/></div>
-            <div className={estilo.item}><Operacao valor1={valor1} valor2={valor2} operacao="*" corFundo="#E0FFFF"/></div>
-            <div className={estilo.item}><Operacao valor1={valor1} valor2={valor2} operacao="/" corFundo="#FFFACD"/></div>
+            <div className={estilo.item}><Operacao valor1={valor1} valor2={valor2} operacao={operacao1} resultado={resultado1} corFundo="#FFD1DC" /></div>
+            <div className={estilo.item}><Operacao valor1={valor1} valor2={valor2} operacao={operacao2} resultado={resultado2} corFundo="#ADD8E6"/></div>
+            <div className={estilo.item}><Operacao valor1={valor1} valor2={valor2} operacao={operacao3} resultado={resultado3} corFundo="#E0FFFF"/></div>
+            <div className={estilo.item}><Operacao valor1={valor1} valor2={valor2} operacao={operacao4} resultado={resultado4} corFundo="#FFFACD"/></div>
         </div>
             
         <Rodape />
