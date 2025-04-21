@@ -1,10 +1,4 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { IPaginacao } from '../../interfaces/IPaginacao';
-import IRestaurante from '../../interfaces/IRestaurante';
-import style from './Calculadora.module.scss';
-import NavBar from '../NavBar';
-import Rodape from '../Rodape';
+import { useState } from 'react';
 
 function Multiplicacao() {
   const [a, setA] = useState(0);
