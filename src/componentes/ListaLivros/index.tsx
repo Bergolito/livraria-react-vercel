@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ILivro from '../../interfaces/ILivro';
-import Livro from './Livro';
+import GridLivros from './GridLivros';
 
 const ListaLivros = () => {
 
   const [livros, setLivros] = useState<ILivro[]>([])
 
+  const API_URL = process.env.API_URL || 'http://localhost:3500' 
   useEffect(() => {
       // obter livros
-      axios.get('http://localhost:3500/livros')
+      axios.get(API_URL+'/livros')
         .then(resposta => {
           console.log(resposta.data)
           setLivros(resposta.data)
@@ -23,7 +24,7 @@ const ListaLivros = () => {
   return (
     <>
     <h1>Lista de Livros</h1>
-    {livros?.map(item => <Livro livro={item} key={item.id} />)}
+    <GridLivros livros={livros} colunas={3} />
     </>
   )
 }

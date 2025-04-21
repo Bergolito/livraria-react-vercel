@@ -8,6 +8,16 @@ function App() {
       <NavBar />
       <Banner /> 
       <h1> Olá mundo!!! </h1>
+      <img 
+          src="/imagens/livraria.jpg" 
+          alt="Banner do sistema" 
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.onerror = null; // Previne loop infinito
+            target.src = 'https://via.placeholder.com/150x200?text=Sem+Capa';
+          }}
+        />
+
       <Rodape />
     </>
   );
