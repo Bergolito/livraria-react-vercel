@@ -7,7 +7,7 @@ function App() {
     <>
       <NavBar />
       <Banner /> 
-      <h1> Olá mundo!!! </h1>
+      {/* <h1> Olá mundo!!! </h1> */}
       <img 
           src="/imagens/livraria.jpg" 
           alt="Banner do sistema" 

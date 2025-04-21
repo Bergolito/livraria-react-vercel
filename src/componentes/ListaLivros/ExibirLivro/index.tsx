@@ -31,7 +31,10 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes }) => {
         <div className={styles.infoLivro}>
           <p><span>Autor:</span> {livro.autor}</p>
           <p><span>Editora:</span> {livro.editora}</p>
-          <p><span>Páginas:</span> {livro.numeroPaginas}</p>
+          { livro.numeroPaginas && (
+            <p><span>Páginas:</span> {livro.numeroPaginas}</p>
+          )
+          }
         </div>
         {onVerDetalhes && (
           <button 
