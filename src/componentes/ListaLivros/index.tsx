@@ -18,7 +18,7 @@ const ListaLivros = () => {
         .catch(erro => {
           console.log(erro)
       })
-    }
+    }, []  // Adicionando array de dependências vazio para evitar loop infinito
   )
 
   return (

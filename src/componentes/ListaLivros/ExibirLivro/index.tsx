@@ -11,6 +11,14 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes }) => {
   // Imagem padrão local em vez de placeholder online
   const imagemPadrao = '/imagens/capas/capa.jpg';
 
+  // Função para extrair o nome do autor do objeto ou exibir o autor como string
+  const renderAutor = () => {
+    if (livro.autor && typeof livro.autor === 'object' && 'nome' in livro.autor) {
+      return livro.autor.nome;
+    }
+    return livro.autor;
+  };
+
   return (
     <div className={styles.cardLivro}>
       <div className={styles.cardImagem}>
@@ -29,7 +37,7 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes }) => {
       <div className={styles.cardConteudo}>
         <h3 className={styles.titulo}>{livro.titulo}</h3>
         <div className={styles.infoLivro}>
-          <p><span>Autor:</span> {livro.autor}</p>
+          <p><span>Autor:</span> {renderAutor()}</p>
           <p><span>Editora:</span> {livro.editora}</p>
           { livro.numeroPaginas && (
             <p><span>Páginas:</span> {livro.numeroPaginas}</p>

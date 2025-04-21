@@ -1,47 +1,65 @@
-import { Box, Button, Checkbox, Select, TextField, Typography } from "@mui/material"
+import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import http from "../../../http"
 import ILivro from "../../../interfaces/ILivro"
 
+interface IAutor {
+    _id: string;
+    nome: string;
+}
+
+// Estendendo a interface ILivro para incluir o autor como objeto
+interface ILivroCompleto extends Omit<ILivro, 'autor'> {
+    autor: IAutor | string;
+}
+
 const FormularioLivro = () => {
 
     const parametros = useParams()
+    const [autores, setAutores] = useState<IAutor[]>([])
+
+    useEffect(() => {
+        http.get<IAutor[]>('autores/')
+            .then(resposta => {
+                setAutores(resposta.data)
+            })
+    }, [])
 
     useEffect(() => {
         if (parametros.id) {
-            http.get<ILivro>(`livros/${parametros.id}/`)
+            http.get<ILivroCompleto>(`livros/${parametros.id}`)
                 .then(resposta => {
                     setTitulo(resposta.data.titulo)
-                    setAutor(resposta.data.autor)
+                    
+                    // Verifica se autor é um objeto ou string
+                    if (typeof resposta.data.autor === 'object' && resposta.data.autor !== null) {
+                        setAutor(resposta.data.autor._id)
+                    } else {
+                        setAutor(resposta.data.autor as string)
+                    }
+                    
                     setEditora(resposta.data.editora)
                     setNumeroPaginas(''+resposta.data.numeroPaginas)
-                    // setAnoPublicacao(''+resposta.data.ano_publicacao)
-                    // setIsbn(resposta.data.isbn)
-                    // setDisponivel(resposta.data.disponivel)
                 })
         }
     }, [parametros])
 
     const [titulo, setTitulo] = useState('')
-    const [autor, setAutor] = useState('67febf8056cfdefc8c505c54')
+    const [autor, setAutor] = useState('')
     const [editora, setEditora] = useState('')
-    //const [anoPublicacao, setAnoPublicacao] = useState('')
     const [numeroPaginas, setNumeroPaginas] = useState('')
-    // const [isbn, setIsbn] = useState('')
-    // const [disponivel, setDisponivel] = useState(false)
 
     const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault()
+
+        console.log('Submit => ',parametros);
 
         if (parametros.id) {
             http.put(`livros/${parametros.id}/`, {
                 titulo: titulo,
                 autor: autor,
                 editora: editora,
-                // ano_publicacao: anoPublicacao,
-                // isbn: isbn,
-                // disponivel: disponivel
             })
             .then(() => {
                 alert("Livro atualizado com sucesso!")
@@ -73,27 +91,24 @@ const FormularioLivro = () => {
                     fullWidth
                     required
                 />
-                <TextField
-                    value={autor}
-                    onChange={evento => setAutor(evento.target.value)}
-                    label="Autor"
-                    variant="standard"
-                    fullWidth
-                    required
-                />
-                {/* <TextField
-                    value={editora}
-                    onChange={evento => setEditora(evento.target.value)}
-                    label="Editora"
-                    variant="standard"
-                    fullWidth
-                    required
-                /> */}
-                {/* <Select label="Editora" value={editora} onChange={evento => setEditora(evento.target.value)} fullWidth required>
-                    <option value="Casa do código">Casa do código</option>
-                    <option value="Alura">Alura</option>
-                    <option value="Cristiano Arcoverde Publicacoes">Cristiano Arcoverde Publicacoes</option>
-                </Select> */}
+                <FormControl variant="standard" fullWidth margin="normal">
+                    <InputLabel id="select-autor-label">Autor</InputLabel>
+                    <Select
+                        labelId="select-autor-label"
+                        id="select-autor"
+                        value={autor}
+                        onChange={evento => setAutor(evento.target.value)}
+                        label="Autor"
+                        required
+                    >
+                        <MenuItem value=""><em>Selecione um autor</em></MenuItem>
+                        {autores.map(autor => (
+                            <MenuItem key={autor._id} value={autor._id}>
+                                {autor.nome}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <div>
                 <label htmlFor="opcoes">Editora:</label>
                 <select id="editora" value={editora} onChange={evento => setEditora(evento.target.value)}>
@@ -112,20 +127,6 @@ const FormularioLivro = () => {
                     fullWidth
                     required
                 /> 
-                {/* <TextField
-                    value={isbn}
-                    onChange={evento => setIsbn(evento.target.value)}   
-                    label="ISBN"
-                    variant="standard"
-                    fullWidth
-                    required
-                />
-                Disponível?
-                <Checkbox
-                    value={disponivel}
-                    onChange={evento => setDisponivel(false)}
-                    required
-                /> */} 
 
                 <Button sx={{ marginTop: 1 }} type="submit" fullWidth variant="outlined">Salvar</Button>
             </Box>
@@ -133,4 +134,4 @@ const FormularioLivro = () => {
     )
 }
 
-export default FormularioLivro
+export default FormularioLivro;

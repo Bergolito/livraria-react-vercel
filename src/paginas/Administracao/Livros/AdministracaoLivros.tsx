@@ -11,14 +11,17 @@ const AdministracaoLivros = () => {
 
     useEffect(() => {
         http.get<ILivro[]>('livros')
-            .then(resposta => setLivros(resposta.data))
+            .then(resposta => {
+                console.log('\n\nLivros => ',resposta.data);
+                setLivros(resposta.data)
+            })
     }, [])
 
-    const excluir = (restauranteAhSerExcluido: ILivro) => {
-        http.delete(`livros/${restauranteAhSerExcluido.id}/`)
+    const excluir = (idLivro: ILivro) => {
+        http.delete(`livros/${idLivro._id}`)
             .then(() => {
-                const listaRestaurante = livros.filter(livro => livro.id !== restauranteAhSerExcluido.id)
-                setLivros([...listaRestaurante])
+                const listaLivros = livros.filter(livro => livro._id !== idLivro._id)
+                setLivros([...listaLivros])
             })
     }
 
@@ -31,10 +34,7 @@ const AdministracaoLivros = () => {
                             Título
                         </TableCell>
                         <TableCell>
-                            Editar
-                        </TableCell>
-                        <TableCell>
-                            Excluir
+                            Ações
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -44,16 +44,10 @@ const AdministracaoLivros = () => {
                             {livro.titulo}
                         </TableCell>
                         <TableCell>
-                            [ <RouterLink to={`/admin/livros/${livro.id}`}>editar </RouterLink> ]
-                            [ <RouterLink to={`/admin/livros/${livro.id}`}> editar </RouterLink> ]
-                            
-                        </TableCell>
-                        <TableCell>
+                            <RouterLink  to={`/admin/livros/${livro._id}`}> Editar </RouterLink> 
                             <Button variant="outlined" color="error" onClick={() => excluir(livro)}>
                                 Excluir
                             </Button>
-
-                            
                         </TableCell>
                     </TableRow>)}
                 </TableBody>
