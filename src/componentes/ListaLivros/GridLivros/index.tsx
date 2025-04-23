@@ -22,7 +22,7 @@ const GridLivros: React.FC<GridLivrosProps> = ({
       }}
     >
       {livros.map(livro => (
-        <div className={styles.gridItem} key={livro.id}>
+        <div className={styles.gridItem} key={livro._id}>
           <ExibirLivro 
             livro={livro} 
             onVerDetalhes={onVerDetalhes}

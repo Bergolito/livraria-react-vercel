@@ -25,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:local": "node -r dotenv/config ./scripts/start-local.js dotenv_config_path=./.env.local && npm start"
   },
   "eslintConfig": {
     "extends": [

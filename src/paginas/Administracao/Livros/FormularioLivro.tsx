@@ -19,8 +19,11 @@ const FormularioLivro = () => {
     const parametros = useParams()
     const [autores, setAutores] = useState<IAutor[]>([])
 
+    const API_URL = process.env.REACT_APP_API_URL
+    console.log('API_URL => ',API_URL)
+
     useEffect(() => {
-        http.get<IAutor[]>('autores/')
+        http.get<IAutor[]>(API_URL+'/autores')
             .then(resposta => {
                 setAutores(resposta.data)
             })
@@ -28,7 +31,7 @@ const FormularioLivro = () => {
 
     useEffect(() => {
         if (parametros.id) {
-            http.get<ILivroCompleto>(`livros/${parametros.id}`)
+            http.get<ILivroCompleto>(API_URL+`/livros/${parametros.id}`)
                 .then(resposta => {
                     setTitulo(resposta.data.titulo)
                     
@@ -56,7 +59,7 @@ const FormularioLivro = () => {
         console.log('Submit => ',parametros);
 
         if (parametros.id) {
-            http.put(`livros/${parametros.id}/`, {
+            http.put(API_URL+`/livros/${parametros.id}/`, {
                 titulo: titulo,
                 autor: autor,
                 editora: editora,
@@ -65,7 +68,7 @@ const FormularioLivro = () => {
                 alert("Livro atualizado com sucesso!")
             })
         } else {
-            http.post('livros/', {
+            http.post(API_URL+'/livros', {
                 titulo: titulo,
                 autor: autor,
                 editora: editora,

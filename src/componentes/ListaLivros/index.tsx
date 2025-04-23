@@ -7,7 +7,8 @@ const ListaLivros = () => {
 
   const [livros, setLivros] = useState<ILivro[]>([])
 
-  const API_URL = process.env.API_URL 
+  const API_URL = process.env.REACT_APP_API_URL 
+  console.log('API_URL => ',API_URL)
   useEffect(() => {
       // obter livros
       axios.get(API_URL+'/livros')

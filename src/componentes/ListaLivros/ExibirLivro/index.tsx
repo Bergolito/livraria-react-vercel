@@ -1,5 +1,6 @@
 import React from 'react';
 import ILivro from '../../../interfaces/ILivro';
+
 import styles from './ExibirLivro.module.scss';
 
 interface ExibirLivroProps {
@@ -36,8 +37,13 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes }) => {
       </div>
       <div className={styles.cardConteudo}>
         <h3 className={styles.titulo}>{livro.titulo}</h3>
+
         <div className={styles.infoLivro}>
-          <p><span>Autor:</span> {renderAutor()}</p>
+          { 
+            livro.autor && (
+              <p><span>Autor:</span> {renderAutor()}</p>
+            )
+          }
           <p><span>Editora:</span> {livro.editora}</p>
           { livro.numeroPaginas && (
             <p><span>Páginas:</span> {livro.numeroPaginas}</p>

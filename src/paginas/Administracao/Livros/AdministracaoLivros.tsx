@@ -9,18 +9,21 @@ const AdministracaoLivros = () => {
 
     const [livros, setLivros] = useState<ILivro[]>([])
 
+    const API_URL = process.env.REACT_APP_API_URL
+    console.log('API_URL => ',API_URL)
+  
     useEffect(() => {
-        http.get<ILivro[]>('livros')
+        http.get<ILivro[]>(API_URL+'/livros')
             .then(resposta => {
                 console.log('\n\nLivros => ',resposta.data);
                 setLivros(resposta.data)
             })
     }, [])
 
-    const excluir = (idLivro: ILivro) => {
-        http.delete(`livros/${idLivro._id}`)
+    const excluir = (livro: ILivro) => {
+        http.delete(API_URL+`/livros/${livro._id}`)
             .then(() => {
-                const listaLivros = livros.filter(livro => livro._id !== idLivro._id)
+                const listaLivros = livros.filter(livroTemp => livroTemp._id !== livro._id)
                 setLivros([...listaLivros])
             })
     }
@@ -39,7 +42,7 @@ const AdministracaoLivros = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {livros.map(livro => <TableRow key={livro.id}>
+                    {livros.map(livro => <TableRow key={livro._id}>
                         <TableCell>
                             {livro.titulo}
                         </TableCell>
