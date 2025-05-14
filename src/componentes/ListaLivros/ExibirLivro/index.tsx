@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ILivro from '../../../interfaces/ILivro';
 
 import styles from './ExibirLivro.module.scss';
@@ -6,11 +6,11 @@ import styles from './ExibirLivro.module.scss';
 interface ExibirLivroProps {
   livro: ILivro;
   onVerDetalhes?: (id: number) => void;
+  onDetalhar?: () => void;
+  exibirModalCompleto?: boolean;
 }
 
-const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes }) => {
-  const [mostrarDetalhes, setMostrarDetalhes] = useState(false);
-  
+const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes, onDetalhar, exibirModalCompleto }) => {
   // Imagem padrão local em vez de placeholder online
   const imagemPadrao = '/imagens/capas/capa.jpg';
 
@@ -22,13 +22,38 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes }) => {
     return livro.autor;
   };
 
-  const abrirDetalhes = () => {
-    setMostrarDetalhes(true);
-  };
-
-  const fecharDetalhes = () => {
-    setMostrarDetalhes(false);
-  };
+  if (exibirModalCompleto) {
+    return (
+      <div className={styles.modalConteudo} style={{ boxShadow: 'none', pointerEvents: 'auto' }}>
+        <div className={styles.modalImagem}>
+          <img
+            src={livro.imagemCapa || imagemPadrao}
+            alt={`Capa do livro ${livro.titulo}`}
+            onError={e => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = 'https://via.placeholder.com/150x200?text=Sem+Capa';
+            }}
+            style={{ boxShadow: 'none' }}
+          />
+        </div>
+        <div className={styles.detalhesLivro}>
+          <h2 style={{ color: '#6a5acd', marginBottom: 16 }}>{livro.titulo}</h2>
+          <p><strong>ID:</strong> {livro._id ?? livro.id}</p>
+          <p><strong>Autor:</strong> {renderAutor()}</p>
+          <p><strong>Editora:</strong> {livro.editora}</p>
+          <p><strong>Número de Páginas:</strong> {livro.numeroPaginas}</p>
+          <p><strong>Imagem da Capa:</strong> {livro.imagemCapa ? livro.imagemCapa : 'Não informada'}</p>
+          <div className={styles.infoAdicional} style={{ marginTop: 24 }}>
+            <h3 style={{ color: '#6a5acd' }}>Informações Adicionais</h3>
+            <p><strong>Info 1:</strong> Dados complementares sobre o livro</p>
+            <p><strong>Info 2:</strong> Outra informação relevante</p>
+            <p><strong>Info 3:</strong> Mais um dado extra</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.cardLivro}>
@@ -70,53 +95,16 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes }) => {
               Ver detalhes
             </button>
           )}
-          <button 
-            className={styles.botaoDetalhar}
-            onClick={abrirDetalhes}
-          >
-            Detalhar
-          </button>
+          {onDetalhar && !exibirModalCompleto && (
+            <button 
+              className={styles.botaoDetalhar}
+              onClick={onDetalhar}
+            >
+              Detalhar
+            </button>
+          )}
         </div>
       </div>
-
-      {mostrarDetalhes && (
-        <div className={styles.modalOverlay} onClick={fecharDetalhes}>
-          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.fecharModal} onClick={fecharDetalhes}>×</button>
-            <h2>{livro.titulo}</h2>
-            
-            <div className={styles.modalConteudo}>
-              <div className={styles.modalImagem}>
-                <img 
-                  src={livro.imagemCapa || imagemPadrao} 
-                  alt={`Capa do livro ${livro.titulo}`}
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.onerror = null;
-                    target.src = 'https://via.placeholder.com/150x200?text=Sem+Capa';
-                  }}
-                />
-              </div>
-              
-              <div className={styles.detalhesLivro}>
-                <p><strong>Autor:</strong> {renderAutor()}</p>
-                <p><strong>Editora:</strong> {livro.editora}</p>
-                <p><strong>Número de Páginas:</strong> {livro.numeroPaginas}</p>
-                <p><strong>ID:</strong> {livro._id}</p>
-                
-                {/* Informações adicionais */}
-                <div className={styles.infoAdicional}>
-                  <h3>Informações Adicionais</h3>
-                  <p><strong>Info 1:</strong> Dados complementares sobre o livro</p>
-                  <p><strong>Data de Cadastro:</strong> {new Date().toLocaleDateString('pt-BR')}</p>
-                  <p><strong>Disponibilidade:</strong> Em estoque</p>
-                  <p><strong>Categoria:</strong> Literatura</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

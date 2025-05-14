@@ -7,12 +7,14 @@ interface GridLivrosProps {
   livros: ILivro[];
   colunas?: number;
   onVerDetalhes?: (id: number) => void;
+  onDetalhar?: (livro: ILivro) => void;
 }
 
 const GridLivros: React.FC<GridLivrosProps> = ({ 
   livros, 
   colunas = 3, 
-  onVerDetalhes 
+  onVerDetalhes, 
+  onDetalhar 
 }) => {
   return (
     <div 
@@ -26,6 +28,7 @@ const GridLivros: React.FC<GridLivrosProps> = ({
           <ExibirLivro 
             livro={livro} 
             onVerDetalhes={onVerDetalhes}
+            onDetalhar={() => onDetalhar && onDetalhar(livro)}
           />
         </div>
       ))}
