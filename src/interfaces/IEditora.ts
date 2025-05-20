@@ -1,7 +1,6 @@
-export default interface IAutor {
+export default interface IEditora {
   id: number;
   _id: number;
   nome: string;
-  nacionalidade: string;
   imagem?: string;
 }
