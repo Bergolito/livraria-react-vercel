@@ -1,13 +1,20 @@
-import { Box, Button, Checkbox, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import http from "../../../http"
 import ILivro from "../../../interfaces/ILivro"
+import IAutor from "../../../interfaces/IAutor"
 
-interface IAutor {
-    _id: string;
-    nome: string;
-}
+// interface IAutor {
+//     _id: string;
+//     nome: string;
+// }
+
+const listaEditoras = [
+    { id: 1, nome: 'Casa do código' },
+    { id: 2, nome: 'Alura' },
+    { id: 3, nome: 'Cristiano Arcoverde Publicacoes' }
+]
 
 // Estendendo a interface ILivro para incluir o autor como objeto
 interface ILivroCompleto extends Omit<ILivro, 'autor'> {
@@ -37,7 +44,7 @@ const FormularioLivro = () => {
                     
                     // Verifica se autor é um objeto ou string
                     if (typeof resposta.data.autor === 'object' && resposta.data.autor !== null) {
-                        setAutor(resposta.data.autor._id)
+                        setAutor(resposta.data.autor._id.toString())
                     } else {
                         setAutor(resposta.data.autor as string)
                     }
@@ -81,11 +88,11 @@ const FormularioLivro = () => {
 
     }
 
-    // "Casa do código", "Alura","Cristiano Arcoverde Publicacoes"
     return (
         <Box sx={{ display: 'flex', flexDirection: "column", alignItems: "center", flexGrow: 1 }}>
             <Typography component="h1" variant="h6">Formulário de Livros</Typography>
             <Box component="form" sx={{ width: '100%' }} onSubmit={aoSubmeterForm}>
+                <InputLabel id="select-titulo-label">Título</InputLabel>
                 <TextField
                     value={titulo}
                     onChange={evento => setTitulo(evento.target.value)}
@@ -114,12 +121,25 @@ const FormularioLivro = () => {
                 </FormControl>
                 <div>
                 <label htmlFor="opcoes">Editora:</label>
-                <select id="editora" value={editora} onChange={evento => setEditora(evento.target.value)}>
-                    <option value="">-- Selecione --</option>
-                    <option value="Casa do código">Casa do código</option>
-                    <option value="Alura">Alura</option>
-                    <option value="Cristiano Arcoverde Publicacoes">Cristiano Arcoverde Publicacoes</option>
-                </select>
+                <FormControl variant="standard" fullWidth margin="normal">
+                    <InputLabel id="select-editora-label">Editora</InputLabel>
+                    <Select
+                        labelId="select-editora-label"
+                        id="select-editora"
+                        value={editora}
+                        onChange={evento => setEditora(evento.target.value)}
+                        label="Editora"
+                        required
+                    >
+                        <MenuItem value=""><em>Selecione uma editora</em></MenuItem>
+                        {listaEditoras.map(editora => (
+                            <MenuItem key={editora.id} value={editora.nome}>
+                                {editora.nome}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
                 <p>Você selecionou: {editora}</p>
                 </div>                
                 <TextField

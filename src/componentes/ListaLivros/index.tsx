@@ -24,17 +24,14 @@ const ListaLivros = () => {
     }, []  // Adicionando array de dependências vazio para evitar loop infinito
   )
 
-  const handleDetalhar = (id: number) => {
-    const livro = livros.find(l => l.id === id || l._id === id);
-    if (livro) setLivroSelecionado(livro);
-  };
-
-  const handleFecharModal = () => setLivroSelecionado(null);
-
   return (
     <>
     <h1>Lista de Livros</h1>
-    <GridLivros livros={livros} onVerDetalhes={handleDetalhar} />
+    <GridLivros 
+      livros={livros} 
+      colunas={3} 
+      onDetalhar={setLivroSelecionado}
+    />
     {livroSelecionado && (
       <div style={{
         position: 'fixed',
@@ -47,10 +44,13 @@ const ListaLivros = () => {
         alignItems: 'center',
         justifyContent: 'center',
         zIndex: 2000
-      }} onClick={handleFecharModal}>
+      }} onClick={() => setLivroSelecionado(null)}>
         <div onClick={e => e.stopPropagation()} style={{background: '#fff', borderRadius: 8, padding: 32, maxWidth: 600, width: '90%', position: 'relative'}}>
-          <button onClick={handleFecharModal} style={{position: 'absolute', top: 12, right: 16, fontSize: 22, background: 'none', border: 'none', cursor: 'pointer'}}>×</button>
+          <button onClick={() => setLivroSelecionado(null)} style={{position: 'absolute', top: 12, right: 16, fontSize: 22, background: 'none', border: 'none', cursor: 'pointer'}}>×</button>
           <ExibirLivro livro={livroSelecionado} exibirModalCompleto />
+          <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: 24}}>
+            <button onClick={() => setLivroSelecionado(null)} style={{background: '#6a5acd', color: '#fff', border: 'none', borderRadius: 4, padding: '8px 24px', fontWeight: 600, cursor: 'pointer'}}>Fechar</button>
+          </div>
         </div>
       </div>
     )}
