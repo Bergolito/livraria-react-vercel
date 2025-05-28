@@ -5,7 +5,7 @@ import IAutor from '../../../interfaces/IAutor';
 
 interface ExibirAutorProps {
   autor: IAutor;
-  onVerDetalhes?: (id: number) => void;
+  onVerDetalhes?: (id: string) => void;
   onDetalhar?: () => void;
   exibirModalCompleto?: boolean;
 }
@@ -69,7 +69,7 @@ const ExibirAutor: React.FC<ExibirAutorProps> = ({ autor, onVerDetalhes, onDetal
           {onVerDetalhes && (
             <button 
               className={styles.botaoDetalhes}
-              onClick={() => onVerDetalhes(autor.id)}
+              onClick={() => onVerDetalhes(autor._id)}
             >
               Ver detalhes
             </button>

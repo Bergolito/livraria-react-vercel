@@ -21,6 +21,7 @@ const AdministracaoEditoras = () => {
         })
     }, [API_URL])
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const buscarEditoras = () => {
         const params: any = {}
         if (nome) params.nome = nome

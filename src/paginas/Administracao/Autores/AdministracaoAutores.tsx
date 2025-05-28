@@ -7,6 +7,7 @@ import http from "../../../http"
 import { Link as RouterLink } from 'react-router-dom'
 import IAutor from "../../../interfaces/IAutor"
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
 const AdministracaoAutores = () => {
 
     const [nome, setNome] = useState('')
@@ -22,13 +23,15 @@ const AdministracaoAutores = () => {
         })
     }, [API_URL])
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const buscarAutores = () => {
         const params: any = {}
+        //if (id) params.nome = nome
         if (nome) params.nome = nome
 
         console.log('params => ', params);
         //http.get<IAutor[]>(API_URL + '/autores', { params })
-        http.get<IAutor[]>(API_URL + '/autores')
+        http.get<IAutor[]>(API_URL + '/autores/busca', { params })
             .then(resposta => {
                 setAutores(resposta.data)
             })

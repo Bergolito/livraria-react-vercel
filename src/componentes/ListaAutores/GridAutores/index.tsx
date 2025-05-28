@@ -6,7 +6,7 @@ import IAutor from '../../../interfaces/IAutor';
 interface GridAutoresProps {
   autores: IAutor[];
   colunas?: number;
-  onVerDetalhes?: (id: number) => void;
+  onVerDetalhes?: (id: string) => void;
   onDetalhar?: (autor: IAutor) => void;
 }
 
