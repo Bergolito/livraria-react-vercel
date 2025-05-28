@@ -7,12 +7,7 @@ import http from "../../../http"
 import ILivro from "../../../interfaces/ILivro"
 import IAutor from "../../../interfaces/IAutor"
 import { Link as RouterLink } from 'react-router-dom'
-
-const listaEditoras = [
-    { id: 1, nome: 'Casa do código' },
-    { id: 2, nome: 'Alura' },
-    { id: 3, nome: 'Cristiano Arcoverde Publicacoes' }
-]
+import IEditora from "../../../interfaces/IEditora"
 
 const AdministracaoLivros = () => {
 
@@ -22,27 +17,31 @@ const AdministracaoLivros = () => {
     const [editora, setEditora] = useState('')
     const [numeroPaginas, setNumeroPaginas] = useState('')
     const [autores, setAutores] = useState<IAutor[]>([])
-
+    const [editoras, setEditoras] = useState<IEditora[]>([])
+    
     const API_URL = process.env.REACT_APP_API_URL
 
     useEffect(() => {
         http.get<IAutor[]>(API_URL + '/autores').then(resp => setAutores(resp.data))
+        http.get<IEditora[]>(API_URL + '/editoras').then(resp => setEditoras(resp.data))
     }, [API_URL])
 
     const buscarLivros = () => {
         const params: any = {}
         if (titulo) params.titulo = titulo
         if (autor) params.nomeAutor = autor
-        if (editora) params.editora = editora
+        if (editora) params.nomeEditora = editora
         if (numeroPaginas) params.numeroPaginas = numeroPaginas
 
         console.log('params => ', params);
         http.get<ILivro[]>(API_URL + '/livros/busca', { params })
             .then(resposta => {
+                console.log('livros => ', resposta.data);
                 setLivros(resposta.data)
             })
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         buscarLivros()
     }, [])
@@ -68,17 +67,11 @@ const AdministracaoLivros = () => {
 
     return (
         <>
-            <RouterLink to="/admin/livros/novo">
-                <Button variant="contained" color="primary">
-                    Novo Livro
-                </Button>
-            </RouterLink>            
-
             <Card sx={{ mb: 2 }}>
                 <CardContent>
+                    <h2>Filtro de Pesquisa</h2>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <Grid item xs={12} sm={12}>
-                            <label>Título</label>
                             <TextField
                                 label="Título"
                                 value={titulo}
@@ -110,8 +103,8 @@ const AdministracaoLivros = () => {
                                     onChange={e => setEditora(e.target.value)}
                                 >
                                     <MenuItem value="">Todos</MenuItem>
-                                    {listaEditoras.map(editora => (
-                                        <MenuItem key={editora.id} value={editora.nome}>{editora.nome}</MenuItem>
+                                    {editoras.map(editora => (
+                                        <MenuItem key={editora._id} value={editora.nome}>{editora.nome}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
@@ -152,10 +145,10 @@ const AdministracaoLivros = () => {
                                 Título
                             </TableCell>
                             <TableCell>
-                                Editora
-                            </TableCell>
+                                Autor
+                            </TableCell>                            
                             <TableCell>
-                                Paginas
+                                Editora
                             </TableCell>
                             <TableCell>
                                 Ações
@@ -167,11 +160,25 @@ const AdministracaoLivros = () => {
                             <TableCell>
                                 {livro.titulo}
                             </TableCell>
-                            <TableCell>
-                                {livro.editora}
+
+                           <TableCell>
+                                {
+                                    livro.autor && typeof livro.autor === 'object' && 'nome' in livro.autor && (
+                                        livro.autor.nome
+                                    ) || (
+                                        livro.autor 
+                                    )
+                                }
                             </TableCell>
                             <TableCell>
-                                {livro.numeroPaginas}
+                                {
+                                    livro.editora && typeof livro.editora === 'object' && 'nome' in livro.editora && (
+                                        livro.editora.nome
+                                    ) || (
+                                        livro.editora 
+                                    )
+                                }
+
                             </TableCell>
                             <TableCell>
                                 <RouterLink to={`/admin/livros/${livro._id}`}> Editar </RouterLink>
@@ -187,4 +194,4 @@ const AdministracaoLivros = () => {
     )
 }
 
-export default AdministracaoLivros
+export default AdministracaoLivros;

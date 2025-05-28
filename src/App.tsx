@@ -4,12 +4,8 @@ import Home from './paginas/Home';
 import VitrineLivros from './paginas/VitrineLivros';
 import VitrineAutores from './paginas/VitrineAutores';
 import VitrineEditoras from './paginas/VitrineEditoras';
-import Sudoku from './componentes/Sudoku';
-import Calculadora from './componentes/Calculadora';
-import Componentes from './componentes/Componentes';
 import AdministracaoLivros from './paginas/Administracao/Livros/AdministracaoLivros';
 import FormularioLivro from './paginas/Administracao/Livros/FormularioLivro';
-import SuperCalculadora from './componentes/SuperCalculadora';
 import AdministracaoAutores from './paginas/Administracao/Autores/AdministracaoAutores';
 import FormularioAutor from './paginas/Administracao/Autores/FormularioAutor';
 import AdministracaoEditoras from './paginas/Administracao/Editoras/AdministracaoEditoras';
@@ -23,10 +19,6 @@ function App() {
       <Route path="/livros" element={<VitrineLivros />} />
       <Route path="/autores" element={<VitrineAutores />} />
       <Route path="/editoras" element={<VitrineEditoras />} />
-      <Route path="/sudoku" element={<Sudoku />} />
-      <Route path="/calculadora" element={<Calculadora />} />
-      <Route path="/super-calculadora" element={<SuperCalculadora />} />
-      <Route path="/comps" element={<Componentes />} />
 
       <Route path='/admin' element={<PaginaBaseAdmin />}>
       

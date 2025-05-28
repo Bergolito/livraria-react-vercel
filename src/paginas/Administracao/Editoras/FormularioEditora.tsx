@@ -7,19 +7,12 @@ import IEditora from "../../../interfaces/IEditora"
 const FormularioEditora = () => {
 
     const parametros = useParams()
-    const [editoras, setEditoras] = useState<IEditora[]>([])
     const [nome, setNome] = useState('')
 
     const API_URL = process.env.REACT_APP_API_URL
     console.log('API_URL => ',API_URL)
 
-    useEffect(() => {
-        http.get<IEditora[]>(API_URL+'/editoras')
-            .then(resposta => {
-                setEditoras(resposta.data)
-            })
-    }, [])
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (parametros.id) {
             http.get<IEditora>(API_URL+`/editoras/${parametros.id}`)

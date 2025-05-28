@@ -1,5 +1,3 @@
-import estilos from './Banner.module.scss';
-
 const Banner = () => {
   return (
     <>

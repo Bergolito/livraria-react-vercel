@@ -7,20 +7,13 @@ import IAutor from "../../../interfaces/IAutor"
 const FormularioAutor = () => {
 
     const parametros = useParams()
-    const [autores, setAutores] = useState<IAutor[]>([])
     const [nome, setNome] = useState('')
     const [nacionalidade, setNacionalidade] = useState('')
 
     const API_URL = process.env.REACT_APP_API_URL
     console.log('API_URL => ',API_URL)
 
-    useEffect(() => {
-        http.get<IAutor[]>(API_URL+'/autores')
-            .then(resposta => {
-                setAutores(resposta.data)
-            })
-    }, [])
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (parametros.id) {
             http.get<IAutor>(API_URL+`/autores/${parametros.id}`)

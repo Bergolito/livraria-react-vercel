@@ -6,12 +6,6 @@ import ILivro from "../../../interfaces/ILivro"
 import IAutor from "../../../interfaces/IAutor"
 import IEditora from "../../../interfaces/IEditora"
 
-// const listaEditoras = [
-//     { id: 1, nome: 'Casa do código' },
-//     { id: 2, nome: 'Alura' },
-//     { id: 3, nome: 'Cristiano Arcoverde Publicacoes' }
-// ]
-
 // Estendendo a interface ILivro para incluir o autor como objeto
 interface ILivroCompleto extends Omit<ILivro, 'autor'> {
     autor: IAutor | string;
@@ -23,6 +17,10 @@ const FormularioLivro = () => {
     const parametros = useParams()
     const [autores, setAutores] = useState<IAutor[]>([])
     const [editoras, setEditoras] = useState<IEditora[]>([])
+    const [titulo, setTitulo] = useState('')
+    const [autor, setAutor] = useState('')
+    const [editora, setEditora] = useState('')
+    const [numeroPaginas, setNumeroPaginas] = useState('')
 
     const API_URL = process.env.REACT_APP_API_URL
     console.log('API_URL => ',API_URL)
@@ -32,14 +30,14 @@ const FormularioLivro = () => {
             .then(resposta => {
                 setEditoras(resposta.data)
             })
-    }, [])
+    }, [API_URL])
 
     useEffect(() => {
         http.get<IAutor[]>(API_URL+'/autores')
             .then(resposta => {
                 setAutores(resposta.data)
             })
-    }, [])
+    }, [API_URL])
 
     useEffect(() => {
         if (parametros.id) {
@@ -54,8 +52,7 @@ const FormularioLivro = () => {
                         setAutor(resposta.data.autor as string)
                     }
                     
-                    //setEditora(resposta.data.editora)
-                    // Verifica se autor é um objeto ou string
+                    // Verifica se editora é um objeto ou string
                     if (typeof resposta.data.editora === 'object' && resposta.data.editora !== null) {
                         setEditora(resposta.data.editora._id.toString())
                     } else {
@@ -65,12 +62,8 @@ const FormularioLivro = () => {
                     setNumeroPaginas(''+resposta.data.numeroPaginas)
                 })
         }
-    }, [parametros])
+    }, [API_URL, parametros.id])
 
-    const [titulo, setTitulo] = useState('')
-    const [autor, setAutor] = useState('')
-    const [editora, setEditora] = useState('')
-    const [numeroPaginas, setNumeroPaginas] = useState('')
 
     const aoSubmeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault()

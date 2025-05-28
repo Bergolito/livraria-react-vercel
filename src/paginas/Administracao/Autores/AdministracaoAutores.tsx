@@ -59,14 +59,9 @@ const AdministracaoAutores = () => {
 
     return (
         <>
-            <RouterLink to="/admin/autores/novo">
-                <Button  variant="contained" color="primary">
-                    Novo Autor
-                </Button>
-            </RouterLink>        
-
             <Card sx={{ mb: 2 }}>
                 <CardContent>
+                    <h2>Filtro de Pesquisa</h2>
                     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                         <Grid item xs={12} sm={12}>
                             <label>Nome</label>
