@@ -162,23 +162,14 @@ const AdministracaoLivros = () => {
                             </TableCell>
 
                            <TableCell>
-                                {
-                                    livro.autor && typeof livro.autor === 'object' && 'nome' in livro.autor && (
-                                        livro.autor.nome
-                                    ) || (
-                                        livro.autor 
-                                    )
-                                }
+                                {typeof livro.autor === 'object' && livro.autor !== null
+                                    ? livro.autor.nome
+                                    : livro.autor}
                             </TableCell>
                             <TableCell>
-                                {
-                                    livro.editora && typeof livro.editora === 'object' && 'nome' in livro.editora && (
-                                        livro.editora.nome
-                                    ) || (
-                                        livro.editora 
-                                    )
-                                }
-
+                                {typeof livro.editora === 'object' && livro.editora !== null
+                                    ? livro.editora.nome
+                                    : livro.editora}
                             </TableCell>
                             <TableCell>
                                 <RouterLink to={`/admin/livros/${livro._id}`}> Editar </RouterLink>

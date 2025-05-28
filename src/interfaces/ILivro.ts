@@ -8,7 +8,7 @@ export default interface ILivro {
   subtitulo?: string;
   autor: string | IAutor;
   editora: string | IEditora;
-  numeroPaginas: number;
+  numeroPaginas?: number;
   edicao?: number; // Edição do livro
   ano?: number; // Ano de lançamento do livro
   isbn?: string; // ISBN do livro
