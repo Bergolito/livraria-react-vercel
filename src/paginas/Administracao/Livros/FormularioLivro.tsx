@@ -4,30 +4,35 @@ import { useParams } from "react-router-dom"
 import http from "../../../http"
 import ILivro from "../../../interfaces/ILivro"
 import IAutor from "../../../interfaces/IAutor"
+import IEditora from "../../../interfaces/IEditora"
 
-// interface IAutor {
-//     _id: string;
-//     nome: string;
-// }
-
-const listaEditoras = [
-    { id: 1, nome: 'Casa do código' },
-    { id: 2, nome: 'Alura' },
-    { id: 3, nome: 'Cristiano Arcoverde Publicacoes' }
-]
+// const listaEditoras = [
+//     { id: 1, nome: 'Casa do código' },
+//     { id: 2, nome: 'Alura' },
+//     { id: 3, nome: 'Cristiano Arcoverde Publicacoes' }
+// ]
 
 // Estendendo a interface ILivro para incluir o autor como objeto
 interface ILivroCompleto extends Omit<ILivro, 'autor'> {
     autor: IAutor | string;
+    editora: IEditora | string;
 }
 
 const FormularioLivro = () => {
 
     const parametros = useParams()
     const [autores, setAutores] = useState<IAutor[]>([])
+    const [editoras, setEditoras] = useState<IEditora[]>([])
 
     const API_URL = process.env.REACT_APP_API_URL
     console.log('API_URL => ',API_URL)
+
+    useEffect(() => {
+        http.get<IEditora[]>(API_URL+'/editoras ')
+            .then(resposta => {
+                setEditoras(resposta.data)
+            })
+    }, [])
 
     useEffect(() => {
         http.get<IAutor[]>(API_URL+'/autores')
@@ -49,7 +54,14 @@ const FormularioLivro = () => {
                         setAutor(resposta.data.autor as string)
                     }
                     
-                    setEditora(resposta.data.editora)
+                    //setEditora(resposta.data.editora)
+                    // Verifica se autor é um objeto ou string
+                    if (typeof resposta.data.editora === 'object' && resposta.data.editora !== null) {
+                        setEditora(resposta.data.editora._id.toString())
+                    } else {
+                        setEditora(resposta.data.editora as string)
+                    }
+
                     setNumeroPaginas(''+resposta.data.numeroPaginas)
                 })
         }
@@ -119,6 +131,7 @@ const FormularioLivro = () => {
                         ))}
                     </Select>
                 </FormControl>
+                <p>Autor selecionado: {autor}</p>
                 <div>
                 <label htmlFor="opcoes">Editora:</label>
                 <FormControl variant="standard" fullWidth margin="normal">
@@ -132,15 +145,15 @@ const FormularioLivro = () => {
                         required
                     >
                         <MenuItem value=""><em>Selecione uma editora</em></MenuItem>
-                        {listaEditoras.map(editora => (
-                            <MenuItem key={editora.id} value={editora.nome}>
+                        {editoras.map(editora => (
+                            <MenuItem key={editora._id} value={editora._id}>
                                 {editora.nome}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
 
-                <p>Você selecionou: {editora}</p>
+                <p>Editora selecionada: {editora}</p>
                 </div>                
                 <TextField
                     value={numeroPaginas}

@@ -21,6 +21,12 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes, onDetal
     }
     return livro.autor;
   };
+  const renderEditora = () => {
+    if (livro.editora && typeof livro.editora === 'object' && 'nome' in livro.editora) {
+      return livro.editora.nome;
+    }
+    return livro.editora;
+  };
 
   if (exibirModalCompleto) {
     return (
@@ -39,16 +45,16 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes, onDetal
         </div>
         <div className={styles.detalhesLivro}>
           <h2 style={{ color: '#6a5acd', marginBottom: 16 }}>{livro.titulo}</h2>
-          <p><strong>ID:</strong> {livro._id ?? livro.id}</p>
+          {/* <p><strong>ID:</strong> {livro._id ?? livro.id}</p> */}
           <p><strong>Autor:</strong> {renderAutor()}</p>
-          <p><strong>Editora:</strong> {livro.editora}</p>
+          <p><strong>Editora:</strong> {renderEditora()}</p>
           <p><strong>Número de Páginas:</strong> {livro.numeroPaginas}</p>
           <p><strong>Imagem da Capa:</strong> {livro.imagemCapa ? livro.imagemCapa : 'Não informada'}</p>
           <div className={styles.infoAdicional} style={{ marginTop: 24 }}>
             <h3 style={{ color: '#6a5acd' }}>Informações Adicionais</h3>
-            <p><strong>Info 1:</strong> Dados complementares sobre o livro</p>
-            <p><strong>Info 2:</strong> Outra informação relevante</p>
-            <p><strong>Info 3:</strong> Mais um dado extra</p>
+            <p><strong>Edição:</strong> {livro.edicao}</p>
+            <p><strong>Ano de Lançamento:</strong> {livro.ano}</p>
+            {/* <p><strong>Info 3:</strong> Mais um dado extra</p> */}
           </div>
         </div>
       </div>
@@ -79,7 +85,12 @@ const ExibirLivro: React.FC<ExibirLivroProps> = ({ livro, onVerDetalhes, onDetal
               <p><span>Autor:</span> {renderAutor()}</p>
             )
           }
-          <p><span>Editora:</span> {livro.editora}</p>
+          {/* <p><span>Editora:</span> {livro.editora}</p> */}
+          { 
+            livro.editora && (
+              <p><span>Editora:</span> {renderEditora()}</p>
+            )
+          }
           { livro.numeroPaginas && (
             <p><span>Páginas:</span> {livro.numeroPaginas}</p>
           )

@@ -1,6 +1,6 @@
 export default interface IAutor {
-  id: number;
-  _id: number;
+  id: string;
+  _id: string;
   nome: string;
   nacionalidade: string;
   imagem?: string;
