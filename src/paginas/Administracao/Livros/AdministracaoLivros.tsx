@@ -29,8 +29,8 @@ const AdministracaoLivros = () => {
     const buscarLivros = () => {
         const params: any = {}
         if (titulo) params.titulo = titulo
-        if (autor) params.nomeAutor = autor
-        if (editora) params.nomeEditora = editora
+        if (autor) params.autor = autor
+        if (editora) params.editora = editora
         if (numeroPaginas) params.numeroPaginas = numeroPaginas
 
         console.log('params => ', params);
@@ -89,7 +89,7 @@ const AdministracaoLivros = () => {
                                 >
                                     <MenuItem value="">Todos</MenuItem>
                                     {autores.map(autor => (
-                                        <MenuItem key={autor._id} value={autor.nome}>{autor.nome}</MenuItem>
+                                        <MenuItem key={autor._id} value={autor._id}>{autor.nome}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
@@ -104,7 +104,7 @@ const AdministracaoLivros = () => {
                                 >
                                     <MenuItem value="">Todos</MenuItem>
                                     {editoras.map(editora => (
-                                        <MenuItem key={editora._id} value={editora.nome}>{editora.nome}</MenuItem>
+                                        <MenuItem key={editora._id} value={editora._id}>{editora.nome}</MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
