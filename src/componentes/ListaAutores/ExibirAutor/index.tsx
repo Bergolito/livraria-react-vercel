@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import styles from './ExibirAutor.module.scss';
 import IAutor from '../../../interfaces/IAutor';
@@ -14,12 +14,32 @@ const ExibirAutor: React.FC<ExibirAutorProps> = ({ autor, onVerDetalhes, onDetal
   // Imagem padrão local em vez de placeholder online
   const imagemPadrao = '/imagens/autores/avatar-autor.jpg';
 
+  // Função utilitária para converter hex em URL de imagem
+  function hexToImageUrl(hexString?: string, mimeType: string = 'image/jpeg'): string | undefined {
+    if (!hexString) return undefined;
+    // Remove prefixo "0x" se existir
+    const cleanHex = hexString.startsWith('0x') ? hexString.slice(2) : hexString;
+    // Converte hex para array de bytes
+    const bytes = new Uint8Array(cleanHex.match(/.{1,2}/g)?.map(byte => parseInt(byte, 16)) || []);
+    if (bytes.length === 0) return undefined;
+    const blob = new Blob([bytes], { type: mimeType });
+    return URL.createObjectURL(blob);
+  }
+
+  // Memoiza a URL da imagem para evitar recriação desnecessária
+  const imagemAutorUrl = useMemo(() => {
+    // Tenta detectar o tipo da imagem pelo início do hex (exemplo simples)
+    let mimeType = 'image/jpeg';
+    if (autor.imagem?.startsWith('89504e47')) mimeType = 'image/png'; // PNG signature
+    return hexToImageUrl(autor.imagem, mimeType);
+  }, [autor.imagem]);
+
   if (exibirModalCompleto) {
     return (
       <div className={styles.modalConteudo} style={{ boxShadow: 'none', pointerEvents: 'auto' }}>
         <div className={styles.modalImagem}>
           <img
-            src={autor.imagem || imagemPadrao}
+            src={imagemAutorUrl || imagemPadrao}
             alt={`Capa do livro ${autor.nome}`}
             onError={e => {
               const target = e.target as HTMLImageElement;
@@ -31,7 +51,6 @@ const ExibirAutor: React.FC<ExibirAutorProps> = ({ autor, onVerDetalhes, onDetal
         </div>
         <div className={styles.detalhesLivro}>
           <h2 style={{ color: '#6a5acd', marginBottom: 16 }}>{autor.nome}</h2>
-          {/* <p><strong>ID:</strong> {autor._id ?? autor.id}</p> */}
           <p><strong>Nacionalidade:</strong> {autor.nacionalidade}</p>
         </div>
       </div>
@@ -42,7 +61,7 @@ const ExibirAutor: React.FC<ExibirAutorProps> = ({ autor, onVerDetalhes, onDetal
     <div className={styles.cardLivro}>
       <div className={styles.cardImagem}>
         <img 
-          src={autor.imagem || imagemPadrao} 
+          src={imagemAutorUrl || imagemPadrao}
           alt={`Capa do livro ${autor.nome}`} 
           className={styles.capaLivro}
           onError={(e) => {
