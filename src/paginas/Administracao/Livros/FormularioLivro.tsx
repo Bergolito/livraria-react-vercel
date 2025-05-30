@@ -1,6 +1,6 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import http from "../../../http"
 import ILivro from "../../../interfaces/ILivro"
 import IAutor from "../../../interfaces/IAutor"
@@ -15,6 +15,7 @@ interface ILivroCompleto extends Omit<ILivro, 'autor'> {
 const FormularioLivro = () => {
 
     const parametros = useParams()
+    const navigate = useNavigate()
     const [autores, setAutores] = useState<IAutor[]>([])
     const [editoras, setEditoras] = useState<IEditora[]>([])
     const [titulo, setTitulo] = useState('')
@@ -78,6 +79,7 @@ const FormularioLivro = () => {
             })
             .then(() => {
                 alert("Livro atualizado com sucesso!")
+                navigate('/admin/livros');
             })
         } else {
             http.post(API_URL+'/livros', {
@@ -88,6 +90,7 @@ const FormularioLivro = () => {
             })
             .then(() => {
                 alert("Livro cadastrado com sucesso!")
+                navigate('/admin/livros');
             })
         }
 

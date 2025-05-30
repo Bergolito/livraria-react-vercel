@@ -1,12 +1,13 @@
 import { Box, Button, InputLabel, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import http from "../../../http"
 import IEditora from "../../../interfaces/IEditora"
 
 const FormularioEditora = () => {
 
     const parametros = useParams()
+    const navigate = useNavigate()
     const [nome, setNome] = useState('')
 
     const API_URL = process.env.REACT_APP_API_URL
@@ -32,14 +33,16 @@ const FormularioEditora = () => {
                 nome: nome,
             })
             .then(() => {
-                alert("Editora atualizado com sucesso!")
+                alert("Editora atualizada com sucesso!")
+                navigate('/admin/editoras');
             })
         } else {
             http.post(API_URL+'/editoras', {
                 nome: nome,
             })
             .then(() => {
-                alert("Editora cadastrado com sucesso!")
+                alert("Editora cadastrada com sucesso!")
+                navigate('/admin/editoras');
             })
         }
 

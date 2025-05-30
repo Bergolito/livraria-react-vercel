@@ -1,12 +1,13 @@
 import { Box, Button, InputLabel, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import http from "../../../http"
 import IAutor from "../../../interfaces/IAutor"
 
 const FormularioAutor = () => {
 
     const parametros = useParams()
+    const navigate = useNavigate()
     const [nome, setNome] = useState('')
     const [nacionalidade, setNacionalidade] = useState('')
 
@@ -36,6 +37,7 @@ const FormularioAutor = () => {
             })
             .then(() => {
                 alert("Autor atualizado com sucesso!")
+                navigate('/admin/autores');
             })
         } else {
             http.post(API_URL+'/autores', {
@@ -44,6 +46,7 @@ const FormularioAutor = () => {
             })
             .then(() => {
                 alert("Autor cadastrado com sucesso!")
+                navigate('/admin/autores');
             })
         }
 
